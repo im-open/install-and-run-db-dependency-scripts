@@ -1,22 +1,27 @@
-name: 'Composite Run Steps Action Template'
+name: Install and Run Depenedency Scripts
 
-description: 'Add description here'
+description: Downloads database dependency scripts and runs them against the specified database
 
 inputs:
-  input-1:
-    description: 'Add a description here'
+  db-server-name:
+    description: The server where the dependency files will be run.
+    required: true
+  db-name:
+    description: The name of the database where the dependency files will run.
+    required: true
+  dependency-list:
+    description: A json string containing a list of objects with the name of the dependency package, the version, and the url where the package is stored.
     required: true
 
-outputs:
-  output-1:
-    description: 'Add description here'
-    value: '${{ steps.step_1.outputs.world }}'
-
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
-    - name: Step 1
-      id: step_1
-      shell: bash
+    - name: Install DB Dependencies
+      shell: pwsh
       run: |
-        echo "::set-output name=hello::world"
+        $parsedDependencies = ConvertFrom-Json "${{ inputs.dependency-list }}"
+        ${{ github.action_path }}\src\download-db-dependencies.ps1 -dependencies $parsedDependencies
+
+    - name: Run DB Dependencies
+      shell: pwsh
+      run: ${{ github.action_path }}\src\run-db-dependencies.ps1 -dbServer "${{ inputs.db-server-name }}" -dbName "${{ inputs.db-name }}"
