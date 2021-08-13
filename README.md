@@ -11,6 +11,15 @@ A GitHub Action that takes in a list of dependency scripts for a database, downl
 | `db-name`         | true        | The name of the database where the dependency files will run. |
 | `dependency-list` | true        | A json string containing a list of objects with the name of the dependency package, the version, and the url where the package is stored. |
 
+The `dependency-list` should be an array of objects with the following properties:
+```json
+{
+  "version": "1.0.0",
+  "packageName": "some_package",
+  "nugetUrl": "https://www.some-nuget-repo.com"
+}
+```
+
 ## Example
 
 ```yml
