@@ -12,13 +12,18 @@ $dependencyFolder = "$PSScriptRoot\.dependencies"
 Import-Module SqlServer
 
 $sqlCmdParams = @(
-    "-ServerInstance $dbServer"
-    "-Database $dbName"
+    "-ServerInstance `"$dbServer`""
+    "-Database `"$dbName`""
     "-AbortOnError"
     "-SeverityLevel 0"
     "-ErrorLevel 0"
     "-Verbose"
 )
+
+$temp2 = [string]::Join(" ", $sqlCmdParams)
+$temp = @("Invoke-Sqlcmd $temp2")
+
+Write-Host $temp
 
 if ($null -ne $username) {
     $sqlCmdParams += "-Username $username"
@@ -34,7 +39,7 @@ if ($null -ne $password) {
 Get-ChildItem -Path $dependencyFolder -Recurse -Depth 1 -Filter *.sql | ForEach-Object {
     Write-Host "Running $($_.Name)"
 
-    $dependencyFileParams = @("-InputFile $_.FullName") + $sqlCmdParams
+    $dependencyFileParams = @("-InputFile $($_.FullName)") + $sqlCmdParams
     $paramsAsAString = [string]::Join(" ", $dependencyFileParams)
 
     Invoke-Expression -Command "Invoke-Sqlcmd $paramsAsAString"
