@@ -12,9 +12,15 @@ inputs:
   dependency-list:
     description: A json string containing a list of objects with the name of the dependency package, the version, and the url where the package is stored.
     required: true
+  username:
+    description: The username of the sql account to use when running the dependency scripts. Integrated security will be used if this isn't specified
+    required: false
+  password:
+    description: The password of the sql account to use when running the dependency scripts.
+    required: false
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - name: Install DB Dependencies
       shell: pwsh
@@ -24,4 +30,11 @@ runs:
 
     - name: Run DB Dependencies
       shell: pwsh
-      run: ${{ github.action_path }}\src\run-db-dependencies.ps1 -dbServer "${{ inputs.db-server-name }}" -dbName "${{ inputs.db-name }}"
+      run: |
+        [System.Security.SecureString] $securePassword = if(!!"${{ inputs.password }}") { ConvertTo-SecureString "${{ inputs.password }}" -AsPlainText -Force } else { $null }
+
+        ${{ github.action_path }}\src\run-db-dependencies.ps1 `
+          -dbServer "${{ inputs.db-server-name }}" `
+          -dbName "${{ inputs.db-name }}" `
+          -username "${{ inputs.username }}" `
+          -password $securePassword

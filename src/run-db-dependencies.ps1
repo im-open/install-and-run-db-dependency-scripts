@@ -1,6 +1,8 @@
 param (
     [string]$dbServer,
-    [string]$dbName
+    [string]$dbName,
+    [string]$username,
+    [securestring]$password
 )
 
 Write-Host "Running database dependency scripts"
