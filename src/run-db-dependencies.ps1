@@ -43,16 +43,6 @@ Get-ChildItem -Path $dependencyFolder -Recurse -Depth 1 -Filter *.sql | ForEach-
     $paramsAsAString = [string]::Join(" ", $dependencyFileParams)
 
     Invoke-Expression -Command "Invoke-Sqlcmd $paramsAsAString"
-    # Invoke-Sqlcmd `
-    #     -InputFile $_.FullName `
-    #     -ServerInstance $dbServer `
-    #     -Database $dbName `
-    #     -Username $username `
-    #     -Password $password `
-    #     -AbortOnError `
-    #     -SeverityLevel 0 `
-    #     -ErrorLevel 0 `
-    #     -Verbose
 }
 
 Write-Host "Finished running database dependency scripts"
