@@ -1,6 +1,7 @@
 param (
     [string]$dbServer,
     [string]$dbName,
+    [switch]$useIntegratedSecurity = $false,
     [string]$username,
     [securestring]$password
 )
@@ -25,14 +26,11 @@ $temp = @("Invoke-Sqlcmd $temp2")
 
 Write-Host $temp
 
-if ($null -ne $username) {
-    $sqlCmdParams += "-Username $username"
-}
-
-if ($null -ne $password) {
+if (!$useIntegratedSecurity) {
     $cred = New-Object System.Management.Automation.PSCredential -ArgumentList $username, $password
     $plainPassword = $cred.GetNetworkCredential().Password
 
+    $sqlCmdParams += "-Username $username"
     $sqlCmdParams += "-Password $plainPassword"
 }
 
