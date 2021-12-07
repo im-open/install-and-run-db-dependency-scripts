@@ -47,7 +47,7 @@ jobs:
           orgs: 'my-org'
 
       - name: Download and Run Dependencies
-        uses: im-open/install-and-run-db-dependency-scripts@v1.0.1
+        uses: im-open/install-and-run-db-dependency-scripts@v1.2.0
         with:
           db-server-name: 'localhost,1433'
           db-name: 'LocalDb'
