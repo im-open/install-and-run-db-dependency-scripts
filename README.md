@@ -4,19 +4,24 @@ A GitHub Action that takes in a list of dependency scripts for a database, downl
 
 ## Index
  
-- [Inputs](#inputs)
-- [Example](#example)
-- [Contributing](#contributing)
-	- [Incrementing the Version](#incrementing-the-version)
-- [Code of Conduct](#code-of-conduct)
-- [License](#license)    
+- [install-and-run-db-dependency-scripts](#install-and-run-db-dependency-scripts)
+  - [Index](#index)
+  - [Inputs](#inputs)
+  - [Example](#example)
+  - [Contributing](#contributing)
+    - [Incrementing the Version](#incrementing-the-version)
+  - [Code of Conduct](#code-of-conduct)
+  - [License](#license)
 
 ## Inputs
-| Parameter         | Is Required | Description                                                                                                                               |
-| ----------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| `db-server-name`  | true        | The server where the dependency files will be run.                                                                                        |
-| `db-name`         | true        | The name of the database where the dependency files will run.                                                                             |
-| `dependency-list` | true        | A json string containing a list of objects with the name of the dependency package, the version, and the url where the package is stored. |
+| Parameter                 | Is Required | Default | Description                                                                                                                                              |
+| ------------------------- | ----------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `db-server-name`          | true        | N/A     | The server where the dependency files will be run.                                                                                                       |
+| `db-name`                 | true        | N/A     | The name of the database where the dependency files will run.                                                                                            |
+| `dependency-list`         | true        | N/A     | A json string containing a list of objects with the name of the dependency package, the version, and the url where the package is stored.                |
+| `use-integrated-security` | true        | false   | Use domain integrated security. If false, a db-username and db-password should be specified. If true, those parameters will be ignored if specified.     |
+| `db-username`             | false       | N/A     | The username to use to login to the database. This is required if use-integrated-security is false, otherwise it's optional and will be ignored.         |
+| `db-password`             | false       | N/A     | The password for the user logging in to the database. This is required if use-integrated-security is false, otherwise it's optional and will be ignored. |
 
 The `dependency-list` should be an array of objects with the following properties:
 ```json
@@ -42,7 +47,7 @@ jobs:
           orgs: 'my-org'
 
       - name: Download and Run Dependencies
-        uses: im-open/install-and-run-db-dependency-scripts@v1.0.1
+        uses: im-open/install-and-run-db-dependency-scripts@v1.2.0
         with:
           db-server-name: 'localhost,1433'
           db-name: 'LocalDb'
