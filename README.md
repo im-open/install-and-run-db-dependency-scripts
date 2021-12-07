@@ -20,8 +20,8 @@ A GitHub Action that takes in a list of dependency scripts for a database, downl
 | `db-name`                 | true        | N/A     | The name of the database where the dependency files will run.                                                                                            |
 | `dependency-list`         | true        | N/A     | A json string containing a list of objects with the name of the dependency package, the version, and the url where the package is stored.                |
 | `use-integrated-security` | true        | false   | Use domain integrated security. If false, a db-username and db-password should be specified. If true, those parameters will be ignored if specified.     |
-| `username`                | true        | N/A     | The username to use to login to the database. This is required if use-integrated-security is false, otherwise it's optional and will be ignored.         |
-| `password`                | true        | N/A     | The password for the user logging in to the database. This is required if use-integrated-security is false, otherwise it's optional and will be ignored. |
+| `db-username`             | false       | N/A     | The username to use to login to the database. This is required if use-integrated-security is false, otherwise it's optional and will be ignored.         |
+| `db-password`             | false       | N/A     | The password for the user logging in to the database. This is required if use-integrated-security is false, otherwise it's optional and will be ignored. |
 
 The `dependency-list` should be an array of objects with the following properties:
 ```json

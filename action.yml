@@ -16,10 +16,10 @@ inputs:
     description: Use domain integrated security. If false, a db-username and db-password should be specified. If true, those parameters will be ignored if specified.
     required: true
     default: 'false'
-  username:
+  db-username:
     description: The username to use to login to the database. This is required if use-integrated-security is false, otherwise it's optional and will be ignored.
     required: false
-  password:
+  db-password:
     description: The password for the user logging in to the database. This is required if use-integrated-security is false, otherwise it's optional and will be ignored.
     required: false
 
@@ -35,11 +35,11 @@ runs:
     - name: Run DB Dependencies
       shell: pwsh
       run: |
-        [System.Security.SecureString] $securePassword = if(!!"${{ inputs.password }}") { ConvertTo-SecureString "${{ inputs.password }}" -AsPlainText -Force } else { $null }
+        [System.Security.SecureString] $securePassword = if(!!"${{ inputs.db-password }}") { ConvertTo-SecureString "${{ inputs.password }}" -AsPlainText -Force } else { $null }
 
         ${{ github.action_path }}\src\run-db-dependencies.ps1 `
           -dbServer "${{ inputs.db-server-name }}" `
           -dbName "${{ inputs.db-name }}" `
           -useIntegratedSecurity:$${{ inputs.use-integrated-security }} `
-          -username "${{ inputs.username }}" `
+          -username "${{ inputs.db-username }}" `
           -password $securePassword
