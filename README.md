@@ -41,13 +41,13 @@ jobs:
     steps:
       # For this example we'll retrieve packages from GitHub Packages 
       - name: Authenticate with GitHub Packages on Windows
-        uses: im-open/authenticate-with-gh-packages-for-nuget@v1.0.5
+        uses: im-open/authenticate-with-gh-package-registries@v1.0.5
         with:
           github-token: ${{ secrets.MY_GH_PACKAGES_ACCESS_TOKEN }} # Token has read:packages scope and is authorized for each of the orgs
           orgs: 'my-org'
 
       - name: Download and Run Dependencies
-        uses: im-open/install-and-run-db-dependency-scripts@v1.2.0
+        uses: im-open/install-and-run-db-dependency-scripts@v1.1.1
         with:
           db-server-name: 'localhost,1433'
           db-name: 'LocalDb'
