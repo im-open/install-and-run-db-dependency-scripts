@@ -3,7 +3,7 @@
 A GitHub Action that takes in a list of dependency scripts for a database, downloads them, and runs them on the specified database.
 
 ## Index
- 
+
 - [install-and-run-db-dependency-scripts](#install-and-run-db-dependency-scripts)
   - [Index](#index)
   - [Inputs](#inputs)
@@ -14,6 +14,7 @@ A GitHub Action that takes in a list of dependency scripts for a database, downl
   - [License](#license)
 
 ## Inputs
+
 | Parameter                 | Is Required | Default | Description                                                                                                                                              |
 | ------------------------- | ----------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `db-server-name`          | true        | N/A     | The server where the dependency files will be run.                                                                                                       |
@@ -24,6 +25,7 @@ A GitHub Action that takes in a list of dependency scripts for a database, downl
 | `db-password`             | false       | N/A     | The password for the user logging in to the database. This is required if use-integrated-security is false, otherwise it's optional and will be ignored. |
 
 The `dependency-list` should be an array of objects with the following properties:
+
 ```json
 {
   "version": "1.0.0",
@@ -41,19 +43,19 @@ jobs:
     steps:
       # For this example we'll retrieve packages from GitHub Packages 
       - name: Authenticate with GitHub Packages on Windows
-        uses: im-open/authenticate-with-gh-package-registries@v1.0.5
+        uses: im-open/authenticate-with-gh-package-registries@v1
         with:
           github-token: ${{ secrets.MY_GH_PACKAGES_ACCESS_TOKEN }} # Token has read:packages scope and is authorized for each of the orgs
           orgs: 'my-org'
 
       - name: Download and Run Dependencies
-        uses: im-open/install-and-run-db-dependency-scripts@v1.1.1
+        # You may also reference the major or major.minor version
+        uses: im-open/install-and-run-db-dependency-scripts@v1.1.2
         with:
           db-server-name: 'localhost,1433'
           db-name: 'LocalDb'
           dependency-list: '[{"version":"1.0.0","packageName":"dbo.Something","nugetUrl":"https://nuget.pkg.github.com/my-org/my-repo/dbo.Something.nupkg"},{"version":"1.2.0","packageName":"dbo.SomeOtherThing","nugetUrl":"https://nuget.pkg.github.com/my-org/my-repo/dbo.SomeOtherThing.nupkg"}]'
 ```
-
 
 ## Contributing
 
