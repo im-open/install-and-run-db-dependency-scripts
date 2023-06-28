@@ -10,7 +10,7 @@ inputs:
     description: The name of the database where the dependency files will run.
     required: true
   dependency-list:
-    description: A json string containing a list of objects with the name of the dependency package, the version, and the url where the package is stored.
+    description: A json string containing a list of objects with the name of the dependency package, the version,the url where the package is stored, and optionally the auth token needed to download the package.
     required: true
   use-integrated-security:
     description: Use domain integrated security. If false, a db-username and db-password should be specified. If true, those parameters will be ignored if specified.
