@@ -22,6 +22,10 @@ inputs:
   db-password:
     description: The password for the user logging in to the database. This is required if use-integrated-security is false, otherwise it's optional and will be ignored.
     required: false
+  trust-server-certificate:
+    description: A boolean that controls whether or not to validate the SQL Server TLS certificate.
+    required: false
+    default: 'false'
 
 runs:
   using: 'composite'
@@ -42,4 +46,5 @@ runs:
           -dbName "${{ inputs.db-name }}" `
           -useIntegratedSecurity:$${{ inputs.use-integrated-security }} `
           -username "${{ inputs.db-username }}" `
-          -password $securePassword
+          -password $securePassword `
+          -trustServerCertificate:$${{ inputs.trust-server-certificate }}

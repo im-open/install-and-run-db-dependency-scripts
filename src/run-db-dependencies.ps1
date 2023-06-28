@@ -3,7 +3,8 @@ param (
     [string]$dbName,
     [switch]$useIntegratedSecurity = $false,
     [string]$username,
-    [securestring]$password
+    [securestring]$password,
+    [switch]$trustServerCertificate
 )
 
 Write-Host "Running database dependency scripts"
@@ -20,6 +21,10 @@ $sqlCmdParams = @(
     "-ErrorLevel 0"
     "-Verbose"
 )
+
+if ($trustServerCertificate) {
+    $sqlCmdParams += "-TrustServerCertificate"
+}
 
 $temp2 = [string]::Join(" ", $sqlCmdParams)
 $temp = @("Invoke-Sqlcmd $temp2")
