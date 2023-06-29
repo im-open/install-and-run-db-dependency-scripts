@@ -15,14 +15,15 @@ A GitHub Action that takes in a list of dependency scripts for a database, downl
 
 ## Inputs
 
-| Parameter                 | Is Required | Default | Description                                                                                                                                              |
-| ------------------------- | ----------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `db-server-name`          | true        | N/A     | The server where the dependency files will be run.                                                                                                       |
-| `db-name`                 | true        | N/A     | The name of the database where the dependency files will run.                                                                                            |
-| `dependency-list`         | true        | N/A     | A json string containing a list of objects with the name of the dependency package, the version, and the url where the package is stored.                |
-| `use-integrated-security` | true        | false   | Use domain integrated security. If false, a db-username and db-password should be specified. If true, those parameters will be ignored if specified.     |
-| `db-username`             | false       | N/A     | The username to use to login to the database. This is required if use-integrated-security is false, otherwise it's optional and will be ignored.         |
-| `db-password`             | false       | N/A     | The password for the user logging in to the database. This is required if use-integrated-security is false, otherwise it's optional and will be ignored. |
+| Parameter                  | Is Required | Default | Description                                                                                                                                                                                        |
+| -------------------------- | ----------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `db-server-name`           | true        | N/A     | The server where the dependency files will be run.                                                                                                                                                 |
+| `db-name`                  | true        | N/A     | The name of the database where the dependency files will run.                                                                                                                                      |
+| `dependency-list`          | true        | N/A     | A json string containing a list of objects with the name of the dependency package, the version,the url where the package is stored, and optionally the auth token needed to download the package. |
+| `use-integrated-security`  | true        | false   | Use domain integrated security. If false, a db-username and db-password should be specified. If true, those parameters will be ignored if specified.                                               |
+| `db-username`              | false       | N/A     | The username to use to login to the database. This is required if use-integrated-security is false, otherwise it's optional and will be ignored.                                                   |
+| `db-password`              | false       | N/A     | The password for the user logging in to the database. This is required if use-integrated-security is false, otherwise it's optional and will be ignored.                                           |
+| `trust-server-certificate` | false       | false   | A boolean that controls whether or not to validate the SQL Server TLS certificate.                                                                                                                 |
 
 The `dependency-list` should be an array of objects with the following properties:
 
@@ -30,9 +31,14 @@ The `dependency-list` should be an array of objects with the following propertie
 {
   "version": "1.0.0",
   "packageName": "some_package",
-  "nugetUrl": "https://www.some-nuget-repo.com"
+  "nugetUrl": "https://www.some-nuget-repo.com",
+  "authToken": "ghp_fdijlfdsakeizdkliejfezejw"
 }
 ```
+
+**Notes** 
+* The `authToken` property is optionally used for nuget sources that require a bearer token, such as GitHub Packages. It should not be included if it is unnecessary.
+* The `nugetUrl` for GitHub Packages can be pretty tricky to lookup, so for reference the pattern is as follows: `https://nuget.pkg.github.com/<owner>/download/<package-name>/<version>/<file-name>.nupkg`. Here's an example of how that could look if this repo were publishing a package called `MyDbObject`: `https://nuget.pkg.github.com/im-open/download/MyDbObject/1.0.0/MyDbObject.1.0.0.nupkg`.
 
 ## Example
 
@@ -50,11 +56,12 @@ jobs:
 
       - name: Download and Run Dependencies
         # You may also reference the major or major.minor version
-        uses: im-open/install-and-run-db-dependency-scripts@v1.1.2
+        uses: im-open/install-and-run-db-dependency-scripts@v1.2.0
         with:
           db-server-name: 'localhost,1433'
           db-name: 'LocalDb'
-          dependency-list: '[{"version":"1.0.0","packageName":"dbo.Something","nugetUrl":"https://nuget.pkg.github.com/my-org/my-repo/dbo.Something.nupkg"},{"version":"1.2.0","packageName":"dbo.SomeOtherThing","nugetUrl":"https://nuget.pkg.github.com/my-org/my-repo/dbo.SomeOtherThing.nupkg"}]'
+          trust-server-certificate: 'true'
+          dependency-list: '[{"version":"1.0.0","packageName":"dbo.Something","nugetUrl":"https://nuget.pkg.github.com/my-org/download/Something/1.0.0/dbo.Something.1.0.0.nupkg","authToken":"ghp_dkfsjakldafl"},{"version":"1.2.0","packageName":"dbo.SomeOtherThing","nugetUrl":"https://nuget.pkg.github.com/my-org/download/SomeOtherThing/1.2.0/dbo.SomeOtherThing1.2.0.nupkg","authToken":"ghp_dkfsjakldafl"}]'
 ```
 
 ## Contributing
