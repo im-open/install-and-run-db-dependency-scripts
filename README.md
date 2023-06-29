@@ -56,7 +56,7 @@ jobs:
 
       - name: Download and Run Dependencies
         # You may also reference the major or major.minor version
-        uses: im-open/install-and-run-db-dependency-scripts@v1.1.2
+        uses: im-open/install-and-run-db-dependency-scripts@v1.2.0
         with:
           db-server-name: 'localhost,1433'
           db-name: 'LocalDb'
