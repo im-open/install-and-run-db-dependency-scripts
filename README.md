@@ -2,12 +2,11 @@
 
 A GitHub Action that takes in a list of dependency scripts for a database, downloads them, and runs them on the specified database.
 
-## Index
+## Index <!-- omit in toc -->
 
 - [install-and-run-db-dependency-scripts](#install-and-run-db-dependency-scripts)
-  - [Index](#index)
   - [Inputs](#inputs)
-  - [Example](#example)
+  - [Usage Examples](#usage-examples)
   - [Contributing](#contributing)
     - [Incrementing the Version](#incrementing-the-version)
   - [Code of Conduct](#code-of-conduct)
@@ -40,7 +39,7 @@ The `dependency-list` should be an array of objects with the following propertie
 * The `authToken` property is optionally used for nuget sources that require a bearer token, such as GitHub Packages. It should not be included if it is unnecessary.
 * The `nugetUrl` for GitHub Packages can be pretty tricky to lookup, so for reference the pattern is as follows: `https://nuget.pkg.github.com/<owner>/download/<package-name>/<version>/<file-name>.nupkg`. Here's an example of how that could look if this repo were publishing a package called `MyDbObject`: `https://nuget.pkg.github.com/im-open/download/MyDbObject/1.0.0/MyDbObject.1.0.0.nupkg`.
 
-## Example
+## Usage Examples
 
 ```yml
 jobs:
