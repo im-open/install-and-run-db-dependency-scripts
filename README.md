@@ -47,7 +47,7 @@ The `dependency-list` should be an array of objects with the following propertie
 ```yml
 jobs:
   download-and-run-db-dependencies:
-    runs-on: [self-hosted, windows-2019]
+    runs-on: im-windows-sql-server
     steps:
       # For this example we'll retrieve packages from GitHub Packages 
       - name: Authenticate with GitHub Packages on Windows
